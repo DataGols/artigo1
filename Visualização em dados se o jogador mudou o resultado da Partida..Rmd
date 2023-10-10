@@ -1,0 +1,220 @@
+---
+title: "Visualização em dados para que seja observado se o jogador mudou o resultado da Partida."
+author: "Data Gols."
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+# Pacotes 
+
+```{r,echo=TRUE,  warning = FALSE, message = FALSE}
+# Pacotes
+library(readr)
+library(ggplot2)
+library(dplyr)
+library(knitr)
+library(png)
+library(readr)
+library(gridExtra)
+library(psych)
+library(rstatix)
+library(graphics)
+library(tidyr)
+library(stats)
+```
+
+# Introdução.
+Recentemente levantou-se a discussão sobre qual a contribuição que o atleta de futebol do Arsenal, Gabriel Martinelli tem de decisão em mudar o resultado de uma partida. Esse diálogo surge em meio a vitória do Arsenal diante do Manchester city. Seria bastante leviano da minha parte ficar de fora e não apresentar os dados amostrais do Gabriel na temporada passada para elucidar de forma coerente e unânime essas provocações.
+
+# Visão Geral do jogador.
+
+Atualmente ele possui 22 anos e tem altura de 1.80cm, nasceu em 18 de junho de 2001.  Sua posição é de atacante e tem seu pé preferido à direita. Seus pontos fortes são as bolas longas e tem uma capacidade de armação criando jogadas para o clube inglês. O seu principal ponto fraco são os duelos aéreos. Está no Arsenal desde 01 de julho 2019, no qual foi vendido do Ituano, clube brasileiro de futebol.
+
+```{r,include=FALSE,  warning = FALSE, message = FALSE}
+player <- read_delim("C:/Users/aldre/Documents/artigo/artigo 4/gabriel martinelli.txt", 
+    delim = "\t", escape_double = FALSE, 
+    trim_ws = TRUE)
+
+```
+
+# Material e Resultados. 
+Os dados foram coletados através do banco de dados do sofascore, filtrados e reorganizados por excel e manipulados em Rstudio. Além disso, para ficar familiar ao meu método de visualização de dados, busquei as datas e os clubes com nomenclatura no site futebol.uk. Que tem anos de experiência com Premier League e é extremamente confiável. 
+
+Na primeira visualização de dados em que eu apresento são o número de gols marcados pelo atleta na temporada 2022/2023. Na qual marcou 15 gols.  Vale ressaltar que o brasileiro marcou mais de um gol contra o Everton na mesma partida! e marcou pelo menos um gol no ponto representado no gráfico. Saiba que, como existe uma temporada regular do campeonato, são 38 rodadas, com jogos fora e em casa, Martinelli ficou de fora apenas 2 onde teve uma lesão no tornozelo. 
+
+
+```{r,echo=FALSE,  warning = FALSE, message = FALSE}
+
+grafico_dispersao <- ggplot(player, aes(x = G, y = Opp)) +
+  geom_point(tat = "identity",fill = "skyblue") +   # Adiciona pontos ao gráfico
+  labs(title = "Gráfico de Dispersão", x = "Gols Marcados", y = "Clubes da Premier League")  # Rótulos dos eixos e título
+
+
+# Mostrar o gráfico
+print(grafico_dispersao)
+
+```
+
+#  Análise descritiva dos dados.
+Criei uma tabela para observar a quantidade de gols que o Arsenal marcou na temporada 2022/2023.  Em que são observados as seguintes variáveis que compõem minha tabela. Observe abaixo.
+
+```{r,echo=FALSE,  warning = FALSE, message = FALSE}
+# Criar um dataframe com as siglas e descrições
+tabela_siglas <- data.frame(
+  Sigla = c("Opp", "Média", "DP", "Var", "max", "min"),
+  Descricao = c("Adversarios","Gols marcados dividio por confrontos ida e volta","Desvio padrão em relação a média", "a variância amostral mostra quantos ponto distante da média de gols", "maximo de gols", "minimos de gols")
+)
+
+# Imprimir a tabela
+kable((tabela_siglas))
+```
+
+Foi verificada a amplitude amostral dos gols marcados e são eles 5 com 7 grupos. Que possuem a mesma efetividade e ou padrão amostral. 
+
+```{r,include=FALSE,  warning = FALSE, message = FALSE}
+#amplitude
+range(player$FTG)
+#categoria adequadas
+nclass.Sturges(player$FTG)
+#criação de tabela com as faixas
+table(cut(player$FTG, seq(0,5,l = 7)))
+#função summary -  medidad de posição
+summary(player$FTG)
+#função describe e describe.by
+describe(player$FTG)
+
+describeBy(player$FTG, group = player$Opp)
+```
+
+```{r,echo=FALSE,  warning = FALSE, message = FALSE}
+tabela.casa.gols <- player %>% group_by(Opp)%>%
+  summarise(
+    media = mean(FTG),
+    DP = sd(FTG),
+    mediana = median(FTG),
+    var = var(FTG),
+    max = max(FTG),
+    min = min(FTG))
+    
+kable(tabela.casa.gols, digits = 2)
+```
+
+
+
+# Método box plot
+
+De forma universal o box plot é uma caixa que comprime os dados fazendo deles um resumo dos jogos observados. Neste levantamento podemos informar a quantidade de gols marcados do Time do Arsenal em 38 partidas.
+
+```{r,echo=FALSE,  warning = TRUE, message = TRUE}
+times <- unique(player$Opp)
+
+
+gerar_boxplots <- function(time) {
+  grafico <- ggplot(subset(player, Opp == time), aes(x = Opp, y = FTG)) +
+    geom_boxplot() +
+    labs(title = paste("", time),
+         x = "Time",
+         y = "Gols") +
+    theme_minimal() +
+    theme(text = element_text(size = 6.5)) # Defina o tamanho da fonte
+  return(grafico)
+}
+
+# Obtenha uma lista única de todos os times presentes nos dados
+times <- unique(player$Opp)
+
+# Divida os times em grupos de 5
+grupos <- split(times, ceiling(seq_along(times) / 5))
+
+# Crie uma lista de box plots para cada grupo de times
+boxplots_por_grupo <- lapply(grupos, function(grupo) {
+  lapply(grupo, gerar_boxplots)
+})
+
+# Exiba os box plots em grupos de 5
+for (grupo in boxplots_por_grupo) {
+  grid.arrange(grobs = grupo, ncol = 5)
+}
+```
+
+
+#  Partidas que o Martinelli mudou o resultado do jogo.
+
+Critério, caso ele tenha marcado um gol quando o time estiver empatando ou  perdendo que leve ao empate é considerado decisivo ou deu a vitória e será nomeado de True. Caso contrário será chamado de False que representa que não foi decisivo ou apenas descontou, reduzindo a vantagem do time adversário. Ah ainda mais um critério que é chamado de expandi, onde o atleta marca e aumenta o placar. 
+
+
+```{r,include=FALSE,  warning = FALSE, message = FALSE}
+GM_resultados <- read_delim("C:/Users/aldre/Documents/artigo/artigo 4/GM resultados.txt", 
+    delim = "\t", escape_double = FALSE, 
+    trim_ws = TRUE)
+```
+
+Visualizando a tabela amostral.
+
+```{r,echo=FALSE,  warning = FALSE, message = FALSE}
+kable(GM_resultados)
+```
+
+# Teoria da Distribuição Binomial
+
+A distribuição binomial é um modelo estatístico que descreve a probabilidade de um evento binário (um evento que pode ocorrer em duas categorias mutuamente exclusivas, como sucesso ou fracasso) em uma série de tentativas independentes e idênticas. Ela é amplamente utilizada em estatística para modelar situações onde estamos interessados em contar o número de sucessos em um número fixo de tentativas.
+
+## Fórmula da Distribuição Binomial
+
+A probabilidade de obter exatamente "k" sucessos em "n" tentativas independentes, com uma probabilidade de sucesso "p" em cada tentativa, pode ser calculada pela seguinte fórmula da distribuição binomial:
+
+\[ P(X = k) = \binom{n}{k} \cdot p^k \cdot (1 - p)^{n - k} \]
+
+Onde:
+
+- \( P(X = k) \) é a probabilidade de obter exatamente "k" sucessos.
+- \( n \) é o número total de tentativas.
+- \( p \) é a probabilidade de sucesso em cada tentativa.
+- \( k \) é o número de sucessos que estamos interessados em contar.
+- \( \binom{n}{k} \) representa o coeficiente binomial, que calcula o número de maneiras de escolher "k" sucessos em "n" tentativas.
+
+## Explicação
+
+- A fórmula da distribuição binomial calcula a probabilidade de exatamente "k" sucessos em "n" tentativas independentes.
+- \( p^k \) representa a probabilidade de "k" sucessos.
+- \( (1 - p)^{n - k} \) representa a probabilidade de "n - k" falhas (ou fracassos).
+- \( \binom{n}{k} \) calcula o número de maneiras diferentes de obter "k" sucessos em "n" tentativas.
+- Somando todas as combinações, obtemos a probabilidade total de "k" sucessos em "n" tentativas.
+
+A distribuição binomial é fundamental em estatística e é amplamente aplicável em várias áreas, como biologia, engenharia, economia e muitas outras, para modelar situações de teste de hipóteses, previsões e análise de resultados de experimentos. É uma ferramenta poderosa para compreender e quantificar a probabilidade de eventos binários em experimentos repetíveis.
+
+.
+
+```{r,echo=FALSE,  warning = FALSE, message = FALSE}
+
+# Número de sucessos observados
+x <- 8
+
+# Número de tentativas
+n <- 14
+
+# Probabilidade de sucesso sob a hipótese nula
+p_null <- 0.5724
+
+# Realize o teste não paramétrico da distribuição binomial
+test_result <- binom.test(x, n, p = p_null, alternative = "two.sided")
+
+# Exiba o resultado
+print(test_result)
+```
+
+# Resultado e Observações.
+
+Número de sucessos observados (x) = 8
+Número de tentativas (n) = 14
+P-valor = 1
+Hipótese alternativa: A verdadeira probabilidade de sucesso não é igual a 0.5724
+Intervalo de confiança de 95%: (0.2886094, 0.8233889)
+Estimativa da probabilidade de sucesso: 0.5714286
+O p-valor é igual a 1, o que significa que não há evidências para rejeitar a hipótese nula de que a probabilidade de sucesso é igual a 0.5724. Isso indica que, com base nos dados e no nível de significância escolhido, não podemos concluir que a probabilidade de sucesso é significativamente diferente de 0.5724. 
+
+Portanto, o poder de decisão do atleta, com base neste teste, não é considerado significativamente diferente da probabilidade de sucesso de 0.5724.
+
+# Conclusão
+
+A quantidade de gols em 36 partidas sendo 15 gols marcados por Gabriel Martinelli. Por enquanto não é tão decisiva caso observarmos apenas a quantidade de mudança em jogo. Entretanto, precisa-se demais evidências conclusivas para se ter uma opinião forma em números coletados. Além disso, a observação dos jogos, mostra que com ele foram conquistados 24  pontos decidindo uma partida, um jogador te entrega estes resultaos por temporada para uma equipe de maneira geral pode ser fundamentalmente importante. o Arsenal conquistou no ano de 2022/2023 84 pontos e perdeu o campeonato por apenas 5 pontos para o machester city que obterve 89 pontos  na premier league. Que fique claro que nenhum teste levaria em consideração a relevância de um campeonato para o ser humano como se tem para dados númericos. Então, cabe observar essas informações!
