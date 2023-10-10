@@ -29,11 +29,6 @@ Obrigado por chegar até aqui. Você encontrará modelagem estatística, séries
 ## Visualização em dados para que seja observado se o jogador mudou o resultado da Partida.
 
 ###### RStudio
-
-### :keyboard: Activity: Edit your file with headers
-
-
-
 <footer>
 
 <!--
@@ -42,9 +37,10 @@ Obrigado por chegar até aqui. Você encontrará modelagem estatística, séries
 -->
 
 ---
+# Contato
+Para entrar em contato comigo para me contratar como analista de time ou analise individual de atleta  acesse:
+- E-mail: aldreiperalta16@gmail.com
+- Linkedln:  Aldrei Peralta
 
-Get help: [Post in our discussion board](https://github.com/orgs/skills/discussions/categories/communicate-using-markdown) &bull; [Review the GitHub status page](https://www.githubstatus.com/)
-
-&copy; 2023 GitHub &bull; [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/code_of_conduct.md) &bull; [MIT License](https://gh.io/mit)
 
 </footer>
