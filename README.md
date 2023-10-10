@@ -40,7 +40,7 @@ Obrigado por chegar até aqui. Você encontrará modelagem estatística, séries
 # Contato
 Para entrar em contato comigo para me contratar como analista de time ou analise individual de atleta  acesse:
 - E-mail: aldreiperalta16@gmail.com
-- Linkedln:  Aldrei Peralta
+- Linkedln: www.linkedin.com/in/aldreiperalta
 
 
 </footer>
