@@ -7,10 +7,8 @@
   Add your open source license, GitHub uses MIT license.
 -->
 
-# Visualização em dados para que seja observado se o jogador mudou o resultado da Partida
-
-Este relatório apresenta dados coletados sobre atletas de futebol.
-
+# Portfólio de Análises e Visualizações de Futebol.
+Obrigado por chegar até aqui. Você encontrará modelagem estatística, séries temporais, visualizações de dados e análise de desempenho de Clubes e atletas feitos por mim.
 </header>
 
 <!--
@@ -21,13 +19,8 @@ Este relatório apresenta dados coletados sobre atletas de futebol.
   Encourage users to open new tabs for steps!
 -->
 
-## Introdução.
-
-Recentemente levantou-se a discussão sobre qual a contribuição que o atleta de futebol do Arsenal, Gabriel Martinelli tem de decisão em mudar o resultado de uma partida. Esse diálogo surge em meio a vitória do Arsenal diante do Manchester city. Seria bastante leviano da minha parte ficar de fora e não apresentar os dados amostrais do Gabriel na temporada passada para elucidar de forma coerente e unânime essas provocações.
-
-- Comments on [issues](https://docs.github.com/issues/tracking-your-work-with-issues/about-issues), [pull requests](https://docs.github.com/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/about-pull-requests), and [discussions](https://docs.github.com/discussions/collaborating-with-your-community-using-discussions/about-discussions)
-- Files with the `.md` or `.markdown` extension
-- Sharing snippets of text in [Gists](https://docs.github.com/github/writing-on-github/editing-and-sharing-content-with-gists/creating-gists)
+## Competências e Formação.
+- Minha formação é em Bacharel em Estatística pela Universidade Federal do Pará. Sendo minha grade curricular em modelagem estatística, análise exploratória de dados, técnicas amostrais, dados categorizados, multivariáveis, análise de regressão linear e multivariada, controle estatístico de qualidade e entre outros.
 
 **What is a _header_?** A header is a larger bit of text at the beginning of a section. There are six sizes.
 
