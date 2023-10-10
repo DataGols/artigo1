@@ -22,7 +22,7 @@ Obrigado por chegar até aqui. Você encontrará modelagem estatística, séries
 ## Competências e Formação.
 - Minha formação é em Bacharel em Estatística pela Universidade Federal do Pará. Sendo minha grade curricular em modelagem estatística, análise exploratória de dados, técnicas amostrais, dados categorizados, multivariáveis, análise de regressão linear e multivariada, controle estatístico de qualidade e entre outros.
 
-**What is a _header_?** A header is a larger bit of text at the beginning of a section. There are six sizes.
+**Qual o papel de um estatístico ?**Sua principal função é compreender informações populacionais que podem ser um conjunto amostral e ter uma análise descritiva compreensível para o usuário final..
 
 ### Example
 
