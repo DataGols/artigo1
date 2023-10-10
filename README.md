@@ -28,7 +28,8 @@ Obrigado por chegar até aqui. Você encontrará modelagem estatística, séries
 
 ## Visualização em dados para que seja observado se o jogador mudou o resultado da Partida.
 
-###### RStudio | Visualização-em-dados-se-o-jogador-mudou-o-resultado-da-Partida..pdf
+###### RStudio | Visualização-em-dados-se-o-jogador-mudou-o-resultado-da-Partida..pdf 
+https://github.com/DataGols/artigo1/blob/main/Visualiza%C3%A7%C3%A3o-em-dados-se-o-jogador-mudou-o-resultado-da-Partida..html
 <footer>
 
 <!--
