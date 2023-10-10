@@ -9,7 +9,7 @@
 
 # Visualização em dados para que seja observado se o jogador mudou o resultado da Partida
 
-_Organize ideas and collaborate using Markdown, a lightweight language for text formatting._
+Este relatório apresenta dados coletados sobre atletas de futebol.
 
 </header>
 
